@@ -49,7 +49,8 @@ var app = {
 		var buttonAction = document.querySelector('#button-action');
 		buttonAction.addEventListener('click', function(){  //app.tomarFoto(Camera.PictureSourceType.CAMERA);
 															var img = new Image();
-															img.src = "https://mdn.mozillademos.org/files/5397/rhino.jpg";
+															img.src = "img/logoMarco.png";
+															//img.src = "https://mdn.mozillademos.org/files/5397/rhino.jpg";
 															img.onload = function(){ app.pintarFoto(img); };
 														} );
 		
