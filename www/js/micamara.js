@@ -1,8 +1,8 @@
 var app = {
 	inicio: function() {
 		this.iniciarFastClick();
-		//this.iniciarBotones();
-		this.bindEvents()
+		this.iniciarBotones();
+		//this.bindEvents()
 	},
 		
 	iniciarFastClick: function(){
@@ -13,10 +13,6 @@ var app = {
 		document.addEventListener('deviceready', app.iniciarBotones, false);
         document.addEventListener('pause', app.onPause, false);
         document.addEventListener('resume', app.onResume, false);
-	},
-
-	iniciarFastClick: function () {
-		FastClick.attach(document.body);
 	},
 
 	onPause: function() { // función que se lanza cuando la app pasa al background al ejecutar una actividad nativa	
@@ -47,19 +43,14 @@ var app = {
 	
 	iniciarBotones: function() {
 		var buttonAction = document.querySelector('#button-action');
-		buttonAction.addEventListener('click', function(){  //app.tomarFoto(Camera.PictureSourceType.CAMERA);
-															var img = new Image();
-															img.src = "img/logoMarco.png";
-															//img.src = "https://mdn.mozillademos.org/files/5397/rhino.jpg";
-															img.onload = function(){ app.pintarFoto(img); };
-														} );
+		buttonAction.addEventListener('click', function(){ app.tomarFoto(Camera.PictureSourceType.CAMERA);});
 		
 		var filterButtons = document.querySelectorAll('.button-filter');
 		filterButtons[0].addEventListener('click', function(){app.aplicarFiltro('gray');});
 		filterButtons[1].addEventListener('click', function(){app.aplicarFiltro('negative');});
 		filterButtons[2].addEventListener('click', function(){app.aplicarFiltro('sepia');});
 
-		var buttonGallery = document.getElementsByClassName("#button-gallery");
+		var buttonGallery = document.querySelector("#button-gallery");
 		buttonGallery.addEventListener('click', function(){ app.tomarFoto(Camera.PictureSourceType.PHOTOLIBRARY); });
 	},
 
@@ -67,21 +58,21 @@ var app = {
 		//appState.takingPicture = true;
 		// Accedo al dispositivo mediante el pluggin de la cámara en el Córdoba
 		var opciones = {
-				  quality: 50,
+				  quality: 100,
 				  sourceType: picSourceType,
 				  destinationType: Camera.DestinationType.FILE_URI,
 				  targetWidth: 300,
 				  targetHeight: 300,
 				  correctOrientation: true
 				};
-		navigator.camera.getPicture(fotoCargada, errorAlCargarFoto, opciones);
+		navigator.camera.getPicture(app.fotoCargada, app.errorAlCargarFoto, opciones);
 	},
 
 	fotoCargada: function(imageURI) {
 		var img = document.createElement('img');
 		img.src = imageURI;
 		img.onload = function(){ app.pintarFoto(img); };
-		appState.takingPicture = false;
+		//appState.takingPicture = false;
 	},
 
 	pintarFoto: function(img) {
@@ -106,5 +97,6 @@ var imgCanvas = document.querySelector('#foto');
 var context = imgCanvas.getContext('2d');
 
 if ('addEventListener' in document) {
-	document.addEventListener('DOMContentLoaded', function() { app.inicio(); }, false);
+	document.addEventListener('DOMContentLoaded', function() { app.iniciarFastClick(); }, false);
+	document.addEventListener('deviceready', app.iniciarBotones(), false);
 };
